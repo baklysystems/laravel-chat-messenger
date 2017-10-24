@@ -1,6 +1,6 @@
 <?php
 
-namespace BaklySystems\Models;
+namespace BaklySystems\LaravelMessenger\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,9 +26,9 @@ class Message extends Model
      * @var array
      */
     protected static $rules = [
-        'conversation_id'       => 'required|integer',
-        'user_id'               => 'required|integer',
-        'message'               => 'string',
+        'conversation_id'       => 'integer',
+        'receiverId'            => 'required|integer', // message reciever.
+        'message'               => 'required|string',
         'is_seen'               => 'boolean',
         'deleted_from_sender'   => 'boolean',
         'deleted_from_receiver' => 'boolean'

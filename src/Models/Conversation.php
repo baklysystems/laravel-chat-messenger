@@ -1,6 +1,6 @@
 <?php
 
-namespace BaklySystems\Models;
+namespace BaklySystems\LaravelMessenger\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,8 +21,7 @@ class Conversation extends Model
      * @var array
      */
     protected static $rules = [
-        'user_one' => 'required|integer',
-        'user_two' => 'required|integer'
+        //
     ];
 
     /**

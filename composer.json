@@ -1,0 +1,20 @@
+{
+    "name": "baklysystems/laravel-chat-messenger",
+    "description": "Laravel chat package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mohamed Abdul-Fattah",
+            "email": "csmohamed8@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "BaklySystems\\LaravelMessenger\\": "src"
+        }
+    },
+}

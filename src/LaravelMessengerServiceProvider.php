@@ -13,9 +13,12 @@ class LaravelMessengerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // config file.
         $this->publishes([
+            // config file.
             __DIR__.'/config/messenger.php' => config_path('messenger.php'),
+            // controller.
+            __DIR__.'/Http/Controllers/MessageController.php'
+                => app_path('Http/Controllers/MessageController.php'),
         ]);
 
         // routes.

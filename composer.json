@@ -2,6 +2,20 @@
     "name": "baklysystems/laravel-chat-messenger",
     "description": "Laravel chat package",
     "license": "MIT",
+    "keywords": [
+        "message",
+        "inbox",
+        "conversations",
+        "chat",
+        "php",
+        "laravel",
+        "realtime",
+        "real-time",
+        "talk",
+        "fb",
+        "facebook"
+    ],
+    "homepage": "https://github.com/baklysystems/laravel-chat-messenger",
     "authors": [
         {
             "name": "Mohamed Abdul-Fattah",

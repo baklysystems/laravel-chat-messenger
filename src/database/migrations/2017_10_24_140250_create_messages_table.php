@@ -17,9 +17,9 @@ class CreateMessagesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('conversation_id');
             $table->text('message');
-            $table->boolean('is_seen');
-            $table->boolean('deleted_from_sender');
-            $table->boolean('deleted_from_receiver');
+            $table->boolean('is_seen')->default(0);
+            $table->boolean('deleted_from_sender')->default(0);
+            $table->boolean('deleted_from_receiver')->default(0);
             $table->foreign('conversation_id')->references('id')->on('conversations');
             $table->timestamps();
         });

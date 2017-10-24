@@ -8,13 +8,24 @@
             "email": "csmohamed8@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": "5.5.*",
+        "illuminate/support": "5.5.*"
+    },
     "autoload": {
         "classmap": [
             "database"
         ],
         "psr-4": {
-            "BaklySystems\\LaravelMessenger\\": "src"
+            "BaklySystems\\LaravelMessenger\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BaklySystems\\LaravelMessenger\\LaravelMessengerServiceProvider"
+            ]
         }
     },
 }

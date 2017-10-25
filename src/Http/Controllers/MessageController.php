@@ -39,10 +39,7 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate([
-            $request,
-            Message::rules()
-        ]);
+        $this->validate($request, Message::rules());
 
         $authUserId   = auth()->id();
         $conversation = $this->getConversation($authUserId, $request->receiverId);

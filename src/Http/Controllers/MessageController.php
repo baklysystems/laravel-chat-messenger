@@ -17,7 +17,7 @@ class MessageController extends Controller
      * @param  int  $receiverId
      * @return collection
      */
-    protected function conversationExists($authUserId, $receiverId)
+    protected function getConversation($authUserId, $receiverId)
     {
         $conversation = new Conversation;
         $conversation->where(function ($query) use ($authUserId, $receiverId) {
@@ -45,10 +45,13 @@ class MessageController extends Controller
         ]);
 
         $authUserId   = auth()->id();
-        $conversation = $this->conversationExists($authUserId, $request->receiverId);
+        $conversation = $this->getConversation($authUserId, $request->receiverId);
 
         if (! $conversation) {
-            // TODO: create new conversation
+            $conversation->create([
+                'user_one' => $authUserId,
+                'user_two' => $request->receiverId
+            ]);
         }
 
         $request = collect($request)

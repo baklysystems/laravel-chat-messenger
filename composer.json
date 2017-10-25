@@ -13,7 +13,8 @@
         "real-time",
         "talk",
         "fb",
-        "facebook"
+        "facebook",
+        "like"
     ],
     "homepage": "https://github.com/baklysystems/laravel-chat-messenger",
     "authors": [

@@ -1,2 +1,12 @@
-# laravel-chat-messenger
-A laravel Chat that is just like facebook chat
+# Laravel Chat Messenger
+A laravel chat that is just like Facebook chat
+
+<!-- ## Installation
+In `config/app.php`
+```php
+'providers' => [
+    ...
+    BaklySystems\LaravelMessenger\LaravelMessengerServiceProvider::class,
+    ...
+];
+``` -->

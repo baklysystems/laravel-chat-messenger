@@ -63,4 +63,14 @@ class Conversation extends Model
     {
         return $this->belongsTo(config('messenger.user.model', 'App\User'),  'user_two');
     }
+
+    /**
+     * Get conversation last message for threads.
+     *
+     * @return collection
+     */
+    public function lastMessage()
+    {
+        return $this->messages->last();
+    }
 }

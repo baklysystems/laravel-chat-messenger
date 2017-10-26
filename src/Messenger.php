@@ -34,42 +34,43 @@ class Messenger
     }
 
     /**
-     * Get all conversations with all users for a user.
+     * Get last {$take} conversations with all users for a user.
      *
      * @param  int  $authId
      * @param  int  $take
-     * @param  int  $skip
      * @return collection
      */
-    public static function userConversations($authId, $take = 20, $skip = 0)
+    public static function userConversations($authId, $take = 20)
     {
-        $conversation = Conversation::whereUserOne($authId)
-            ->orWhere('user_two', $authId)
-            ->take($take)
-            ->skip($skip)
+        $collection    = Conversation::whereUserOne($authId)
+            ->orWhere('user_two', $authId);
+        $totalRecords  = $collection->count();
+        $conversations = $collection->take($take)
+            ->skip($totalRecords - $take)
             ->get();
 
-        return $conversation;
+        return $conversations;
     }
 
     /**
-     * Get messages between two users.
+     * Get last {$take} messages between two users.
      *
      * @param  int  $loggedUserId
      * @param  int  $withUser
      * @param  int  $take
-     * @param  int  $skip
      * @return collection
      */
-    public static function messagesWith($loggedUserId, $withUser, $take = 20, $skip = 0)
+    public static function messagesWith($loggedUserId, $withUser, $take = 20)
     {
         $conversation = self::getConversation($loggedUserId, $withUser);
 
         if ($conversation) {
-            $messages = Message::whereConversationId($conversation->id)
-                ->take($take)
-                ->skip($skip)
+            $collection   = Message::whereConversationId($conversation->id);
+            $totalRecords = $collection->count();
+            $messages     = $collection->take($take)
+                ->skip($totalRecords - $take)
                 ->get();
+
             return $messages;
         }
 
@@ -77,16 +78,15 @@ class Messenger
     }
 
     /**
-     * Get user threads with all other users.
+     * Get last {$take} user threads with all other users.
      *
      * @param  int  $authId
      * @param  int  $take
-     * @param  int  $skip
      * @return collection
      */
-    public static function threads($authId, $take = 20, $skip = 0)
+    public static function threads($authId, $take = 20)
     {
-        $conversations = self::userConversations($authId, $take, $skip);
+        $conversations = self::userConversations($authId, $take);
         $threads       = [];
 
         foreach ($conversations as $key => $conversation) {

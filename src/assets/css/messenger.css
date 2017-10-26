@@ -1,0 +1,77 @@
+.messenger {
+    height: 24em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#message-body {
+    width: 100%;
+    border: 1px solid lightgray;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    resize: none;
+}
+
+.panel-default>.panel-heading {
+    background-color: #2a88bd;
+    color: #fff;
+}
+
+.panel-default>.panel-body p span {
+    color: #ccc;
+    font-weight: bold;
+}
+
+.messenger-body div p {
+    color: #fff;
+    padding: 5px 1em;
+    margin: 3px 1em;
+    width: fit-content;
+    max-width: 80%;
+    border-radius: 5px;
+}
+
+.sent {
+    background-color: #63b4dc;
+    float: right;
+}
+
+.received {
+    background-color: #ccc;
+}
+
+.unsent {
+    color: red;
+    float: right;
+    cursor: pointer;
+}
+
+.thread-user {
+    padding: 0 1em;
+}
+
+.thread-message {
+    padding: 0 1em;
+    color: #ccc;
+}
+
+#messages-preloader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.start-conv {
+    text-align: center;
+    color: #ccc;
+}

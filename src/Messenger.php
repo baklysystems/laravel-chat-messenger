@@ -102,6 +102,12 @@ class Messenger
             $threads[]                  = $collection;
         }
 
-        return collect($threads);
+        $threads = collect($threads);
+        $threads = $threads->sortByDesc(function ($ins, $key) { // order threads by last updated message.
+            $ins = (array) $ins;
+            return $ins['lastMessage']['updated_at'];
+        });
+
+        return $threads->values()->all();
     }
 }

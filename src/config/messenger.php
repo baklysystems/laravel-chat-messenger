@@ -1,18 +1,15 @@
 <?php
 
 return [
-    'user' => [
-        'model' => 'App\User',
-    ],
     'broadcast' => [
         'enable' => true,
-        'app_name' => env('APP_NAME'),
+        'app_name' => '',
         'pusher' => [
-            'app_id' => env('PUSHER_APP_ID'),
-            'app_key' => env('PUSHER_APP_KEY'),
-            'app_secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => '',
+            'app_key' => '',
+            'app_secret' => '',
             'options' => [
-                'cluster' => env('PUSHER_CLUSTER'),
+                'cluster' => '',
                 'encrypted' => true
             ]
         ],

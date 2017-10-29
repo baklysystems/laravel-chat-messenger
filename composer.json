@@ -45,5 +45,5 @@
                 "Messenger": "BaklySystems\\LaravelMessenger\\Facades\\Messenger"
             }
         }
-    },
+    }
 }

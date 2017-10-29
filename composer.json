@@ -1,0 +1,49 @@
+{
+    "name": "baklysystems/laravel-chat-messenger",
+    "description": "Laravel chat package",
+    "license": "MIT",
+    "keywords": [
+        "message",
+        "inbox",
+        "conversations",
+        "chat",
+        "php",
+        "laravel",
+        "realtime",
+        "real-time",
+        "talk",
+        "fb",
+        "facebook",
+        "like"
+    ],
+    "homepage": "https://github.com/baklysystems/laravel-chat-messenger",
+    "authors": [
+        {
+            "name": "Mohamed Abdul-Fattah",
+            "email": "csmohamed8@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "laravel/framework": "5.5.*",
+        "illuminate/support": "5.5.*"
+    },
+    "autoload": {
+        "classmap": [
+            "database"
+        ],
+        "psr-4": {
+            "BaklySystems\\LaravelMessenger\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BaklySystems\\LaravelMessenger\\LaravelMessengerServiceProvider"
+            ],
+            "aliases": {
+                "Messenger": "BaklySystems\\LaravelMessenger\\Facades\\Messenger"
+            }
+        }
+    }
+}

@@ -28,7 +28,7 @@ In `config/app.php` file
 ```
 Then, run `php artisan vendor:publish` to publish the config file, controller and assets.
 
-And voila, you can start conversation with any user by linking to [your-domain.com/messenger/t/{userId}].
+And voila, you can start conversation with any user by linking to [your-domain.com/messenger/t/{userId}]().
 
 ## Customization
 

@@ -32,13 +32,14 @@ And voila, you can start conversation with any user by linking to [your-domain.c
 
 ## Customization
 
-### Views
+### Migrations
 
-To publish and edit messenger migrations, runt the publish command with `messenger-migrations` tag.
+To publish and edit messenger migrations, run the publish command with `messenger-migrations` tag.
 
 ```bash
 $ php artisan vendor:publish --tag messenger-migrations
 ```
+### Views
 
 To publish and edit messenger views, run the publish command with `messenger-views` tag.
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace BaklySystems\LaravelMessenger;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +19,8 @@ class LaravelMessengerServiceProvider extends ServiceProvider
             // controller.
             __DIR__.'/Http/Controllers/MessageController.php'
                 => app_path('Http/Controllers/MessageController.php'),
+            // assets.
+            __DIR__.'/assets' => public_path('vendor/messenger'),
         ]);
 
         // routes.
@@ -37,11 +39,6 @@ class LaravelMessengerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/views' => resource_path('views/vendor/messenger'),
         ], 'messenger-views');
-
-        // assets.
-        $this->publishes([
-            __DIR__.'/assets' => public_path('vendor/messenger'),
-        ], 'public');
     }
 
     /**
@@ -51,6 +48,9 @@ class LaravelMessengerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Messenger Facede.
+        $this->app->singleton('messenger', function () {
+            return new Messenger;
+        });
     }
 }

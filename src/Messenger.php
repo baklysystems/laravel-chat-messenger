@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * IoC Messenger
+ *
+ * @author Mohamed Abdul-Fattah
+ * @license MIT
+ */
+
 namespace BaklySystems\LaravelMessenger;
 
 use BaklySystems\LaravelMessenger\Models\Message;
@@ -20,7 +27,7 @@ class Messenger
      * @param  int  $receiverId
      * @return collection
      */
-    public static function getConversation($authId, $receiverId)
+    public function getConversation($authId, $receiverId)
     {
         $conversation = Conversation::where(function ($query) use ($authId, $receiverId) {
                 $query->whereUserOne($authId)
@@ -40,7 +47,7 @@ class Messenger
      * @param  int  $take
      * @return collection
      */
-    public static function userConversations($authId, $take = 20)
+    public function userConversations($authId, $take = 20)
     {
         $collection    = Conversation::whereUserOne($authId)
             ->orWhere('user_two', $authId);
@@ -60,7 +67,7 @@ class Messenger
      * @param  int  $take
      * @return collection
      */
-    public static function messagesWith($loggedUserId, $withUser, $take = 20)
+    public function messagesWith($loggedUserId, $withUser, $take = 20)
     {
         $conversation = self::getConversation($loggedUserId, $withUser);
 
@@ -84,7 +91,7 @@ class Messenger
      * @param  int  $take
      * @return collection
      */
-    public static function threads($authId, $take = 20)
+    public function threads($authId, $take = 20)
     {
         $conversations = self::userConversations($authId, $take);
         $threads       = [];

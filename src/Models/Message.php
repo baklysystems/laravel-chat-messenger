@@ -61,6 +61,6 @@ class Message extends Model
      */
     public function sender()
     {
-        return $this->belongsTo(config('messenger.user.model', 'App\User'));
+        return $this->belongsTo(config('messenger.user.model', config('messenger.user.model', 'App\User')));
     }
 }

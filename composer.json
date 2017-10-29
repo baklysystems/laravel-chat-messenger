@@ -40,7 +40,10 @@
         "laravel": {
             "providers": [
                 "BaklySystems\\LaravelMessenger\\LaravelMessengerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Messenger": "BaklySystems\\LaravelMessenger\\Facades\\Messenger"
+            }
         }
     },
 }

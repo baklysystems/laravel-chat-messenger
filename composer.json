@@ -35,7 +35,7 @@
             "database"
         ],
         "psr-4": {
-            "BaklySystems\\LaravelMessenger\\": "src/"
+            "BaklySystems\\LaravelMessenger\\": "src"
         }
     },
     "extra": {

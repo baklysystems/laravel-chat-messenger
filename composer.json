@@ -27,7 +27,7 @@
     "require": {
         "laravel/framework": "5.4.*|5.5.*",
         "illuminate/support": "5.4.*|5.5.*",
-	"laravelcollection/html": "^5.4",
+	"laravelcollective/html": "^5.4",
 	"pusher/pusher-php-server": ">=2.6"
     },
     "autoload": {

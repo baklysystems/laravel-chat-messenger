@@ -12,9 +12,10 @@
         "realtime",
         "real-time",
         "talk",
-        "fb",
-        "facebook",
-        "like"
+        "fb chat",
+        "like facebook chat",
+        "like facebook messenger",
+	"support chat"
     ],
     "homepage": "https://github.com/baklysystems/laravel-chat-messenger",
     "authors": [
@@ -24,9 +25,10 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "laravel/framework": "5.5.*",
-        "illuminate/support": "5.5.*"
+        "laravel/framework": "5.4.*|5.5.*",
+        "illuminate/support": "5.4.*|5.5.*",
+	"laravelcollection/html": "^5.5",
+	"pusher/pusher-php-server": ">=2.6"
     },
     "autoload": {
         "classmap": [

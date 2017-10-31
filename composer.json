@@ -31,11 +31,8 @@
 	"pusher/pusher-php-server": ">=2.6"
     },
     "autoload": {
-        "classmap": [
-            "database"
-        ],
         "psr-4": {
-            "BaklySystems\\LaravelMessenger\\": "src"
+            "BaklySystems\\LaravelMessenger\\": "src/"
         }
     },
     "extra": {

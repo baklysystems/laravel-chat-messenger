@@ -5,6 +5,8 @@ A Laravel JQuery chat that is just like Facebook chat
 
 Laravel Messenger supports Laravel 5.4 and higher.
 
+### Package
+
 Require via composer
 
 ```bash
@@ -26,12 +28,20 @@ In `config/app.php` file
     ...
 ];
 ```
+
+### Laravel Messenger Files
+
 Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets.
+
+### Laravel Messenger Sytles and Scripts
 
 Make sure to add `@yield('css-styles')` in your app/master head section and `@yield('js-scripts')` to your app/master scripts section, or edit section naming in `view/vendor/messenger/messenger.blade.php`
 
 JQuery is required for the messenger script.
 
+### Laravel Messenger Pusher
+
+Add your pusher keys in `config/messenger.php` file.
 
 And voila, you can start conversation with any user by linking to `your-domain.com/messenger/t/{userId}`.
 
@@ -57,11 +67,10 @@ $ php artisan vendor:publish --tag messenger-views
 1. Support Laravel 5.*
 2. seen and unseen messages.
 3. emotions.
-4. Page title changes when a new message arrives.
-5. upload photos.
-6. Attach files.
-7. User can delete messages.
-8. Show date before every conversation beginning.
-9. paginate and load threads.
-10. Laravel Messenger chatbox.
-11. Unauthenticated chatbox to message customer service.
+4. upload photos.
+5. Attach files.
+6. User can delete messages.
+7. Show date before every conversation beginning.
+8. paginate and load threads.
+9. Laravel Messenger chatbox.
+10. Unauthenticated chatbox to message customer service.

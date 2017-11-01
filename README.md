@@ -26,9 +26,14 @@ In `config/app.php` file
     ...
 ];
 ```
-Then, run `php artisan vendor:publish` to publish the config file, controller and assets.
+Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets.
 
-And voila, you can start conversation with any user by linking to [your-domain.com/messenger/t/{userId}]().
+Make sure to add `@yield('css-styles')` in your app/master head section and `@yield('js-scripts')` to your app/master scripts section, or edit section naming in `view/vendor/messenger/messenger.blade.php`
+
+JQuery is required for the messenger script.
+
+
+And voila, you can start conversation with any user by linking to `your-domain.com/messenger/t/{userId}`.
 
 ## Customization
 
@@ -52,10 +57,11 @@ $ php artisan vendor:publish --tag messenger-views
 1. Support Laravel 5.*
 2. seen and unseen messages.
 3. emotions.
-4. upload photos.
-5. Attach files.
-6. User can delete messages.
-7. Show date before every conversation beginning.
-8. paginate and load threads.
-9. Laravel Messenger chatbox.
-10. Unauthenticated chatbox to message customer service.
+4. Page title changes when a new message arrives.
+5. upload photos.
+6. Attach files.
+7. User can delete messages.
+8. Show date before every conversation beginning.
+9. paginate and load threads.
+10. Laravel Messenger chatbox.
+11. Unauthenticated chatbox to message customer service.

@@ -3,7 +3,9 @@ A Laravel JQuery chat that is just like Facebook chat
 
 ## Installation
 
-Laravel Messenger supports Laravel 5.5
+Laravel Messenger supports Laravel 5.4 and higher.
+
+### Package
 
 Require via composer
 
@@ -26,9 +28,22 @@ In `config/app.php` file
     ...
 ];
 ```
-Then, run `php artisan vendor:publish` to publish the config file, controller and assets.
 
-And voila, you can start conversation with any user by linking to [your-domain.com/messenger/t/{userId}]().
+### Laravel Messenger Files
+
+Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets.
+
+### Laravel Messenger Sytles and Scripts
+
+Make sure to add `@yield('css-styles')` in your app/master head section and `@yield('js-scripts')` to your app/master scripts section, or edit section naming in `view/vendor/messenger/messenger.blade.php`
+
+JQuery is required for the messenger script.
+
+### Laravel Messenger Pusher
+
+Add your pusher keys in `config/messenger.php` file.
+
+And voila, you can start conversation with any user by linking to `your-domain.com/messenger/t/{userId}`.
 
 ## Customization
 

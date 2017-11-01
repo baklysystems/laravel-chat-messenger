@@ -11,11 +11,11 @@
      * Do action when a message event is triggered.
      */
     channel.bind('messenger-event', function (data) {
-        if (data.senderId === receiverId && data.receiverId === authId && senderId !== receiverId) { // current conversation thread.
+        if (data.senderId == receiverId && data.receiverId == authId && data.receiverId != data.senderId) { // current conversation thread.
             newMessage(data.message, 'received');
             playTweet();
             loadThreads();
-        } else if (data.receiverId === authId) {
+        } else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
             playTweet();
             loadThreads();
         }

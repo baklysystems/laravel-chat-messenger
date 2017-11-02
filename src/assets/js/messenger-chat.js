@@ -143,5 +143,26 @@
                 loadMessages();
             }
         });
+
+        /**
+         * Hover to sent messages to show delete btn.
+         */
+        $(document).on('mouseover', '.sent', function (e) {
+            $(this).after('<i class="fa fa-ellipsis-h fa-2x pull-right" aria-hidden="true"></i>');
+        });
+
+        /**
+         * Hover to received messages to show delete btn.
+         */
+        $(document).on('mouseover', '.received', function (e) {
+            $(this).after('<i class="fa fa-ellipsis-h fa-2x pull-left" aria-hidden="true"></i>');
+        });
+
+        /**
+         * Mouse up to remove delete btn
+         */
+        $(document).on('mouseout', '.sent, received', function (e) {
+            $(this).parent().find('.fa-ellipsis-h').remove();
+        });
     });
 }());

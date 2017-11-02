@@ -69,7 +69,7 @@ class Messenger
      */
     public function messagesWith($loggedUserId, $withUser, $take = 20)
     {
-        $conversation = self::getConversation($loggedUserId, $withUser);
+        $conversation = $this->getConversation($loggedUserId, $withUser);
 
         if ($conversation) {
             $collection   = Message::whereConversationId($conversation->id);
@@ -93,7 +93,7 @@ class Messenger
      */
     public function threads($authId, $take = 20)
     {
-        $conversations = self::userConversations($authId, $take);
+        $conversations = $this->userConversations($authId, $take);
         $threads       = [];
 
         foreach ($conversations as $key => $conversation) {

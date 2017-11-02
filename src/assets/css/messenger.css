@@ -40,6 +40,7 @@
 
 .received {
     background-color: #ccc;
+    float: left;
 }
 
 .unsent {
@@ -78,5 +79,11 @@
 
 .start-conv {
     text-align: center;
+    color: #ccc;
+}
+
+/*Menu Dots*/
+
+.fa-ellipsis-h {
     color: #ccc;
 }

@@ -2,7 +2,7 @@
  * This JS file applies only for messenger page.
  */
 ;(function () {
-    var take       = (messagesCount < 20) ? 0 : 20,
+    var take       = (messagesCount < 20) ? 0 : 20, // represents the number of messages to be displayed.
         $messenger = $('.messenger'),
         $loader    = $('#messages-preloader'),
         channel    = pusher.subscribe('messenger-channel');
@@ -11,11 +11,11 @@
      * Do action when a message event is triggered.
      */
     channel.bind('messenger-event', function (data) {
-        if (data.senderId == receiverId && data.receiverId == authId && data.receiverId != data.senderId) { // current conversation thread.
+        if (data.senderId === receiverId && data.receiverId === authId && senderId !== receiverId) { // current conversation thread.
             newMessage(data.message, 'received');
             playTweet();
             loadThreads();
-        } else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
+        } else if (data.receiverId === authId) {
             playTweet();
             loadThreads();
         }
@@ -145,24 +145,38 @@
         });
 
         /**
-         * Hover to sent messages to show delete btn.
+         * Hover to messages to show menu dots.
          */
-        $(document).on('mouseover', '.sent', function (e) {
-            $(this).after('<i class="fa fa-ellipsis-h fa-2x pull-right" aria-hidden="true"></i>');
+        $(document).on('mouseover', '.message-row', function (e) {
+            $(this).find('.fa-ellipsis-h').show();
         });
 
         /**
-         * Hover to received messages to show delete btn.
+         * Mouse up to remove menu dots.
          */
-        $(document).on('mouseover', '.received', function (e) {
-            $(this).after('<i class="fa fa-ellipsis-h fa-2x pull-left" aria-hidden="true"></i>');
+        $(document).on('mouseout', '.message-row', function (e) {
+            $('.fa-ellipsis-h').hide();
         });
 
         /**
-         * Mouse up to remove delete btn
+         * CLick on menu dots to show up delete message option.
          */
-        $(document).on('mouseout', '.sent, received', function (e) {
-            $(this).parent().find('.fa-ellipsis-h').remove();
+        $(document).on('click', '.fa-ellipsis-h', function (e) {
+            $(this).find('.delete').toggle();
+        });
+
+        /**
+         * Delete message.
+         */
+        $(document).on('click', '.delete', function (e) {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url: '/messenger/delete/' + id,
+                method: 'DELETE'
+            }).done(function (res) {
+                //
+            });
         });
     });
 }());

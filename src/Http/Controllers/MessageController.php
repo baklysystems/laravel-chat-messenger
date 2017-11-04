@@ -70,14 +70,14 @@ class MessageController extends Controller
             ]
         );
         $pusher->trigger('messenger-channel', 'messenger-event', [
-            'message'    => $message->message,
+            'message'    => $message,
             'senderId'   => $authUserId,
             'receiverId' => $receiverId
         ]);
 
         return response()->json([
             'success' => true,
-            'messgae' => $message
+            'message' => $message
         ], 200);
     }
 
@@ -119,6 +119,23 @@ class MessageController extends Controller
                 'view'          => $view,
                 'messagesCount' => $messages->count()
             ], 200);
+        }
+    }
+
+    /**
+     * Delete a message.
+     *
+     * @param  int  $id
+     * @return Response.
+     */
+    public function destroy($id)
+    {
+        $confirm = Messenger::deleteMessage($id, auth()->id());
+
+        if ($confirm) {
+            return response()->json(['success' => true], 200);
+        } else {
+            return response()->json(['success' => false], 500);
         }
     }
 }

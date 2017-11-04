@@ -40,6 +40,7 @@
 
 .received {
     background-color: #ccc;
+    float: left;
 }
 
 .unsent {
@@ -79,4 +80,29 @@
 .start-conv {
     text-align: center;
     color: #ccc;
+}
+
+/*Menu Dots*/
+
+.fa-ellipsis-h {
+    color: #eee;
+    display: none;
+    position: relative;
+}
+
+.fa-ellipsis-h:hover {
+    cursor: pointer;
+}
+
+.delete {
+    display: none;
+    position: absolute;
+    bottom: 30px;
+    right: 5px;
+    background-color: #000;
+    color: #fff;
+    opacity: 0.8;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 10px;
 }

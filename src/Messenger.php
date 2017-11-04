@@ -62,17 +62,26 @@ class Messenger
     /**
      * Get last {$take} messages between two users.
      *
-     * @param  int  $loggedUserId
-     * @param  int  $withUser
+     * @param  int  $authId
+     * @param  int  $withId
      * @param  int  $take
      * @return collection
      */
-    public function messagesWith($loggedUserId, $withUser, $take = 20)
+    public function messagesWith($authId, $withId, $take = 20)
     {
-        $conversation = self::getConversation($loggedUserId, $withUser);
+        $conversation = $this->getConversation($authId, $withId);
 
         if ($conversation) {
-            $collection   = Message::whereConversationId($conversation->id);
+            $collection   = Message::whereConversationId($conversation->id)
+                ->where(function ($query) use ($authId, $withId) {
+                    $query->where(function ($qr) use ($authId) {
+                        $qr->where('sender_id', $authId) // this message is sent by the authUser.
+                            ->where('deleted_from_sender', 0);
+                    })->orWhere(function ($qr) use ($withId) {
+                        $qr->where('sender_id', $withId) // this message is sent by the receiver/withUser.
+                            ->where('deleted_from_receiver', 0);
+                    });
+                });
             $totalRecords = $collection->count();
             $messages     = $collection->take($take)
                 ->skip($totalRecords - $take)
@@ -93,7 +102,7 @@ class Messenger
      */
     public function threads($authId, $take = 20)
     {
-        $conversations = self::userConversations($authId, $take);
+        $conversations = $this->userConversations($authId, $take);
         $threads       = [];
 
         foreach ($conversations as $key => $conversation) {
@@ -116,5 +125,24 @@ class Messenger
         });
 
         return $threads->values()->all();
+    }
+
+    /**
+     * Delete a message.
+     *
+     * @param  int  $messageId
+     * @param  int  $authId
+     * @return boolean.
+     */
+    public function deleteMessage($messageId, $authId)
+    {
+        $message = Message::findOrFail($messageId);
+        if ($message->sender_id == $authId) {
+            $message->update(['deleted_from_sender' => 1]);
+        } else {
+            $message->update(['deleted_from_receiver' => 1]);
+        }
+
+        return true;
     }
 }

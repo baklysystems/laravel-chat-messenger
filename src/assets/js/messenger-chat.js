@@ -2,7 +2,7 @@
  * This JS file applies only for messenger page.
  */
 ;(function () {
-    var take       = (messagesCount < 20) ? 0 : 20,
+    var take       = (messagesCount < 20) ? 0 : 20, // represents the number of messages to be displayed.
         $messenger = $('.messenger'),
         $loader    = $('#messages-preloader'),
         channel    = pusher.subscribe('messenger-channel');
@@ -15,19 +15,40 @@
             newMessage(data.message, 'received');
             playTweet();
             loadThreads();
-        } else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
+        }  else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
             playTweet();
             loadThreads();
         }
     });
 
     /**
+     * Delete confirmation.
+     */
+    function confirmDelete() {
+        return confirm('Are your sure you want to delete this message');
+    }
+
+    /**
+     * Create a new menu for the new message.
+     */
+    function newMenu(messageClass, messageId) {
+        var pull = (messageClass === 'sent') ? 'pull-right' : 'pull-left';
+
+        return '\
+            <i class="fa fa-ellipsis-h fa-2x '+ pull +'" aria-hidden="true">\
+                <div class="delete" data-id="'+ messageId +'">Delete</div>\
+            </i>\
+        ';
+    }
+
+    /**
      * Append a new message to chat body.
      */
     function newMessage(message, messageClass, failed = 0) {
         $('.messenger-body').append('\
-            <div class="row">\
-                <p class="' + messageClass + '">' + message + '</p>\
+            <div class="row message-row">\
+                <p class="' + messageClass + '">' + message.message + '</p>\
+                '+ newMenu(messageClass, message.id) +'\
             </div>\
         ');
         if (failed) {
@@ -125,12 +146,12 @@
             }
             JqHXR.done(function (res) { // message sent.
                 if (res.success) {
-                    newMessage(message, 'sent');
+                    newMessage(res.message, 'sent');
                     loadThreads();
                 }
             });
             JqHXR.fail(function (res) { // message didn't send.
-                newMessage(message, 'sent', true);
+                newMessage(res.message, 'sent', true);
             });
         });
 
@@ -141,6 +162,57 @@
             if (!$messenger.scrollTop() && take) {
                 take += 20;
                 loadMessages();
+            }
+        });
+
+        /**
+         * Hover to messages to show menu dots.
+         */
+        $(document).on('mouseover', '.message-row', function (e) {
+            $(this).find('.fa-ellipsis-h').show();
+        });
+
+        /**
+         * Mouse up to remove menu dots.
+         */
+        $(document).on('mouseout', '.message-row', function (e) {
+            var deleteBtn = $(this).find('.delete').css('display');
+
+            if (deleteBtn !== 'block') {
+                $(this).find('.fa-ellipsis-h').hide(); // only hide if delete popup is not poped up.
+            }
+        });
+
+        /**
+         * CLick on menu dots to show up delete message option.
+         */
+        $(document).on('click', '.fa-ellipsis-h', function (e) {
+            // Hide all other opened menus.
+            $('.delete').not($(this).find('.delete')).hide();
+            $('.fa-ellipsis-h').not($(this).find('.fa-ellipsis-h')).hide();
+            // Only show this menu.
+            $(this).find('.delete').toggle();
+        });
+
+        /**
+         * Delete message.
+         */
+        $(document).on('click', '.delete', function (e) {
+            var confirm = confirmDelete();
+            if (confirm) {
+                var id       = $(this).attr('data-id'),
+                    $message = $(this).parent().parent();
+
+                $.ajax({
+                    url: '/messenger/delete/' + id,
+                    method: 'DELETE'
+                }).done(function (res) {
+                    if (res.success) {
+                        $message.hide(function () {
+                            $message.remove();
+                        });
+                    }
+                });
             }
         });
     });

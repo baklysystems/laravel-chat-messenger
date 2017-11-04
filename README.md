@@ -33,7 +33,7 @@ In `config/app.php` file
 
 Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets.
 
-### Laravel Messenger Sytles and Scripts
+### Laravel Messenger Styles and Scripts
 
 Make sure to add `@yield('css-styles')` in your app/master head section and `@yield('js-scripts')` to your app/master scripts section, or edit section naming in `view/vendor/messenger/messenger.blade.php`
 
@@ -64,13 +64,12 @@ $ php artisan vendor:publish --tag messenger-views
 
 ## TODO
 
-1. Support Laravel 5.*
-2. seen and unseen messages.
-3. emotions.
-4. upload photos.
-5. Attach files.
-6. User can delete messages.
-7. Show date before every conversation beginning.
-8. paginate and load threads.
-9. Laravel Messenger chatbox.
-10. Unauthenticated chatbox to message customer service.
+* Support Laravel 5.*
+* seen and unseen messages.
+* emotions.
+* upload photos.
+* Attach files.
+* Show date before every conversation beginning.
+* paginate and load threads.
+* Laravel Messenger chatbox.
+* Unauthenticated chatbox to message customer service.

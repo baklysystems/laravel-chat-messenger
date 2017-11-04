@@ -70,14 +70,14 @@ class MessageController extends Controller
             ]
         );
         $pusher->trigger('messenger-channel', 'messenger-event', [
-            'message'    => $message->message,
+            'message'    => $message,
             'senderId'   => $authUserId,
             'receiverId' => $receiverId
         ]);
 
         return response()->json([
             'success' => true,
-            'messgae' => $message
+            'message' => $message
         ], 200);
     }
 

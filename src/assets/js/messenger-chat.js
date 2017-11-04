@@ -11,11 +11,11 @@
      * Do action when a message event is triggered.
      */
     channel.bind('messenger-event', function (data) {
-        if (data.senderId === receiverId && data.receiverId === authId && senderId !== receiverId) { // current conversation thread.
+        if (data.senderId == receiverId && data.receiverId == authId && data.receiverId != data.senderId) { // current conversation thread.
             newMessage(data.message, 'received');
             playTweet();
             loadThreads();
-        } else if (data.receiverId === authId) {
+        }  else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
             playTweet();
             loadThreads();
         }
@@ -29,12 +29,26 @@
     }
 
     /**
+     * Create a new menu for the new message.
+     */
+    function newMenu(messageClass, messageId) {
+        var pull = (messageClass === 'sent') ? 'pull-right' : 'pull-left';
+
+        return '\
+            <i class="fa fa-ellipsis-h fa-2x '+ pull +'" aria-hidden="true">\
+                <div class="delete" data-id="'+ messageId +'">Delete</div>\
+            </i>\
+        ';
+    }
+
+    /**
      * Append a new message to chat body.
      */
     function newMessage(message, messageClass, failed = 0) {
         $('.messenger-body').append('\
-            <div class="row">\
-                <p class="' + messageClass + '">' + message + '</p>\
+            <div class="row message-row">\
+                <p class="' + messageClass + '">' + message.message + '</p>\
+                '+ newMenu(messageClass, message.id) +'\
             </div>\
         ');
         if (failed) {
@@ -132,12 +146,12 @@
             }
             JqHXR.done(function (res) { // message sent.
                 if (res.success) {
-                    newMessage(message, 'sent');
+                    newMessage(res.message, 'sent');
                     loadThreads();
                 }
             });
             JqHXR.fail(function (res) { // message didn't send.
-                newMessage(message, 'sent', true);
+                newMessage(res.message, 'sent', true);
             });
         });
 
@@ -162,13 +176,21 @@
          * Mouse up to remove menu dots.
          */
         $(document).on('mouseout', '.message-row', function (e) {
-            $('.fa-ellipsis-h').hide();
+            var deleteBtn = $(this).find('.delete').css('display');
+
+            if (deleteBtn !== 'block') {
+                $(this).find('.fa-ellipsis-h').hide(); // only hide if delete popup is not poped up.
+            }
         });
 
         /**
          * CLick on menu dots to show up delete message option.
          */
         $(document).on('click', '.fa-ellipsis-h', function (e) {
+            // Hide all other opened menus.
+            $('.delete').not($(this).find('.delete')).hide();
+            $('.fa-ellipsis-h').not($(this).find('.fa-ellipsis-h')).hide();
+            // Only show this menu.
             $(this).find('.delete').toggle();
         });
 

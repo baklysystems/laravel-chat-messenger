@@ -22,6 +22,13 @@
     });
 
     /**
+     * Delete confirmation.
+     */
+    function confirmDelete() {
+        return confirm('Are your sure you want to delete this message');
+    }
+
+    /**
      * Append a new message to chat body.
      */
     function newMessage(message, messageClass, failed = 0) {
@@ -169,14 +176,22 @@
          * Delete message.
          */
         $(document).on('click', '.delete', function (e) {
-            var id = $(this).attr('data-id');
+            var confirm = confirmDelete();
+            if (confirm) {
+                var id       = $(this).attr('data-id'),
+                    $message = $(this).parent().parent();
 
-            $.ajax({
-                url: '/messenger/delete/' + id,
-                method: 'DELETE'
-            }).done(function (res) {
-                //
-            });
+                $.ajax({
+                    url: '/messenger/delete/' + id,
+                    method: 'DELETE'
+                }).done(function (res) {
+                    if (res.success) {
+                        $message.hide(function () {
+                            $message.remove();
+                        });
+                    }
+                });
+            }
         });
     });
 }());

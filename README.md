@@ -3,7 +3,7 @@ A Laravel JQuery chat that is just like Facebook chat
 
 ## Installation
 
-Laravel Messenger supports Laravel 5.4 and higher.
+Laravel Messenger supports Laravel 5.3 and higher.
 
 ### Package
 

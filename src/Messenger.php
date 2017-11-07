@@ -24,16 +24,16 @@ class Messenger
      * and return conversation (if any).
      *
      * @param  int  $authId
-     * @param  int  $receiverId
+     * @param  int  $withId
      * @return collection
      */
-    public function getConversation($authId, $receiverId)
+    public function getConversation($authId, $withId)
     {
-        $conversation = Conversation::where(function ($query) use ($authId, $receiverId) {
+        $conversation = Conversation::where(function ($query) use ($authId, $withId) {
                 $query->whereUserOne($authId)
-                      ->whereUserTwo($receiverId);
-            })->orWhere(function ($query) use ($authId, $receiverId) {
-                $query->whereUserOne($receiverId)
+                      ->whereUserTwo($withId);
+            })->orWhere(function ($query) use ($authId, $withId) {
+                $query->whereUserOne($withId)
                       ->whereUserTwo($authId);
             })->first();
 
@@ -125,6 +125,23 @@ class Messenger
         });
 
         return $threads->values()->all();
+    }
+
+    /**
+     * Make messages seen for a conversation.
+     *
+     * @param  int  $authId
+     * @param  int  $withId
+     * @return boolean
+     */
+    public function makeSeen($authId, $withId)
+    {
+        $conversation = $this->getConversation($authId, $withId);
+        Message::whereConversationId($conversation->id)->update([
+            'is_seen' => 1
+        ]);
+
+        return true;
     }
 
     /**

@@ -80,7 +80,8 @@
     function loadThreads() {
         $.ajax({
             url: '/messenger/threads',
-            method: 'GET'
+            method: 'GET',
+            data: {withUserId: receiverId}
         }).done(function (view) {
             $('.threads').html(view);
         });
@@ -192,6 +193,20 @@
             $('.fa-ellipsis-h').not($(this).find('.fa-ellipsis-h')).hide();
             // Only show this menu.
             $(this).find('.delete').toggle();
+        });
+
+        /**
+         * Hide opened delete menu when click anywhere.
+         */
+        $('body').on('click', function (e) {
+            if ($(e.target).hasClass('fa-ellipsis-h')) { // toggle delete menu on clicking on dots.
+                return true;
+            } else if ($(e.target).hasClass('message-row')) { // don't hide on hover dots when click on message row.
+                $('.fa-ellipsis-h').not($(e.target).find('.fa-ellipsis-h')).hide();
+            } else {
+                $('.fa-ellipsis-h').hide();
+            }
+            $('.delete').hide();
         });
 
         /**

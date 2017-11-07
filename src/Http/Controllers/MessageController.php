@@ -23,17 +23,19 @@ class MessageController extends Controller
     /**
      * Get messenger page.
      *
-     * @param  int  $userId
+     * @param  int  $withId
      * @return Response
      */
-    public function laravelMessenger($userId)
+    public function laravelMessenger($withId)
     {
-        $withUser = config('messenger.user.model', 'App\User')::findOrFail($userId);
+        Messenger::makeSeen(auth()->id(), $withId);
+        $withUser = config('messenger.user.model', 'App\User')::findOrFail($withId);
         $messages = Messenger::messagesWith(auth()->id(), $withUser->id);
         $threads  = Messenger::threads(auth()->id());
 
         return view('messenger::messenger', compact('withUser', 'messages', 'threads'));
     }
+
     /**
      * Create a new message.
      *
@@ -44,14 +46,14 @@ class MessageController extends Controller
     {
         $this->validate($request, Message::rules());
 
-        $authUserId   = auth()->id();
-        $receiverId   = $request->receiverId;
-        $conversation = Messenger::getConversation($authUserId, $receiverId);
+        $authUserId = auth()->id();
+        $withId     = $request->receiverId;
+        $conversation = Messenger::getConversation($authUserId, $withId);
 
         if (! $conversation) {
             $conversation = Conversation::create([
                 'user_one' => $authUserId,
-                'user_two' => $receiverId
+                'user_two' => $withId
             ]);
         }
 
@@ -72,7 +74,7 @@ class MessageController extends Controller
         $pusher->trigger('messenger-channel', 'messenger-event', [
             'message'    => $message,
             'senderId'   => $authUserId,
-            'receiverId' => $receiverId
+            'receiverId' => $withId
         ]);
 
         return response()->json([

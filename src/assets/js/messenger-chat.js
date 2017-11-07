@@ -141,8 +141,7 @@
                     method: 'POST',
                     data: {
                         message: message,
-                        receiverId: receiverId,
-                        is_seen: 1
+                        receiverId: receiverId
                     }
                 });
             }

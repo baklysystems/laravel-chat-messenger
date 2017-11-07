@@ -14,7 +14,7 @@
 
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><h4>{{$user->name}}</h4></div>
+                <div class="panel-heading"><h4>{{$withUser->name}}</h4></div>
 
                 <div class="panel-body">
                     <div class="messenger">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="panel-footer">
-                    <input type="hidden" name="receiverId" value="{{$user->id}}">
+                    <input type="hidden" name="receiverId" value="{{$withUser->id}}">
                     <textarea id="message-body" name="message" rows="2" placeholder="Type your message..."></textarea>
                     <button type="submit" id="send-btn" class="btn btn-primary">SEND</button>
                 </div>
@@ -43,10 +43,10 @@
 
                 <div class="panel-body">
                     <p>
-                        <span>Name</span> {{$user->name}}
+                        <span>Name</span> {{$withUser->name}}
                     </p>
                     <p>
-                        <span>Email</span> {{$user->email}}
+                        <span>Email</span> {{$withUser->email}}
                     </p>
                 </div>
             </div>
@@ -58,7 +58,7 @@
 @section('js-scripts')
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script type="text/javascript">
-        var receiverId    = {{$user->id}},
+        var receiverId    = {{$withUser->id}},
             authId        = {{auth()->id()}},
             messagesCount = {{count($messages)}};
             pusher        = new Pusher('{{config('messenger.pusher.app_key')}}', {

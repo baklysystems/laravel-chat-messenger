@@ -52,7 +52,7 @@
 }
 
 .unsent {
-    color: red;
+    color: #f03d25;
     float: right;
     cursor: pointer;
 }
@@ -65,6 +65,7 @@
 
 .thread-row {
     background-color: #fff;
+    padding-top: 8px;
 }
 
 .thread-row:hover, .current {
@@ -79,12 +80,15 @@
 .thread-message {
     padding: 0 1em;
     color: #999999;
+    font-size: 13px;
 }
 
 .unseen {
     font-weight: bold;
 }
-
+.unseen p.thread-message {
+    color: #333;
+}
 /*Messages Preloader*/
 
 #messages-preloader {

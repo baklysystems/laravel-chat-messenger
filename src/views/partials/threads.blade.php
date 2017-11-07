@@ -6,10 +6,10 @@
             @if ($thread->lastMessage)
                 <a href="/messenger/t/{{$thread->withUser->id}}" class="thread-link">
                     <div class="row thread-row
-                    @if(!$thread->lastMessage->seen)
+                    @if(!$thread->lastMessage->is_seen)
                         unseen
                     @endif
-                    @if($thread->withUser->id === $user->id)
+                    @if($thread->withUser->id === $withUser->id)
                         current
                     @endif
                     ">

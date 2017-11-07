@@ -80,7 +80,8 @@
     function loadThreads() {
         $.ajax({
             url: '/messenger/threads',
-            method: 'GET'
+            method: 'GET',
+            data: {withUserId: receiverId}
         }).done(function (view) {
             $('.threads').html(view);
         });
@@ -140,7 +141,8 @@
                     method: 'POST',
                     data: {
                         message: message,
-                        receiverId: receiverId
+                        receiverId: receiverId,
+                        is_seen: 1
                     }
                 });
             }

@@ -47,7 +47,7 @@ class MessageController extends Controller
         $this->validate($request, Message::rules());
 
         $authUserId = auth()->id();
-        $withId     = $request->receiverId;
+        $withId     = $request->withId;
         $conversation = Messenger::getConversation($authUserId, $withId);
 
         if (! $conversation) {
@@ -74,7 +74,7 @@ class MessageController extends Controller
         $pusher->trigger('messenger-channel', 'messenger-event', [
             'message'    => $message,
             'senderId'   => $authUserId,
-            'receiverId' => $withId
+            'withId'     => $withId
         ]);
 
         return response()->json([
@@ -92,7 +92,7 @@ class MessageController extends Controller
     public function loadThreads(Request $request)
     {
         if ($request->ajax()) {
-            $withUser = config('messenger.user.model', 'App\User')::findOrFail($request->withUserId);
+            $withUser = config('messenger.user.model', 'App\User')::findOrFail($request->withId);
             $threads  = Messenger::threads(auth()->id());
             $view     = view('messenger::partials.threads', compact('threads', 'withUser'))->render();
 
@@ -108,12 +108,12 @@ class MessageController extends Controller
      */
     public function moreMessages(Request $request)
     {
-        $this->validate($request, ['receiverId' => 'required|integer']);
+        $this->validate($request, ['withId' => 'required|integer']);
 
         if ($request->ajax()) {
             $messages = Messenger::messagesWith(
                 auth()->id(),
-                $request->receiverId,
+                $request->withId,
                 $request->take
             );
             $view = view('messenger::partials.messages', compact('messages'))->render();
@@ -123,6 +123,19 @@ class MessageController extends Controller
                 'messagesCount' => $messages->count()
             ], 200);
         }
+    }
+
+    /**
+     * Make a message seen.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
+    public function makeSeen(Request $request)
+    {
+        Messenger::makeSeen($request->authId, $request->withId);
+
+        return response()->json(['success' => true], 200);
     }
 
     /**

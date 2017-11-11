@@ -10,4 +10,7 @@
         Route::get('threads', 'App\Http\Controllers\MessageController@loadThreads')->name('threads');
         Route::get('more/messages', 'App\Http\Controllers\MessageController@moreMessages')->name('more.messages');
         Route::delete('delete/{id}', 'App\Http\Controllers\MessageController@destroy')->name('delete');
+        Route::prefix('ajax')->group(function () {
+            Route::post('make-seen', 'App\Http\Controllers\MessageController@makeSeen')->name('make-seen');
+        });
     });

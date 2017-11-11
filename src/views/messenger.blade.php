@@ -58,7 +58,7 @@
 @section('js-scripts')
     <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
     <script type="text/javascript">
-        var receiverId    = {{$withUser->id}},
+        var withId        = {{$withUser->id}},
             authId        = {{auth()->id()}},
             messagesCount = {{count($messages)}};
             pusher        = new Pusher('{{config('messenger.pusher.app_key')}}', {

@@ -121,7 +121,7 @@ class Messenger
         $threads = collect($threads);
         $threads = $threads->sortByDesc(function ($ins, $key) { // order threads by last updated message.
             $ins = (array) $ins;
-            return $ins['lastMessage']['updated_at'];
+            return $ins['lastMessage']['created_at'];
         });
 
         return $threads->values()->all();
@@ -141,7 +141,7 @@ class Messenger
             'is_seen' => 1
         ]);
 
-        return true;
+        return response()->json(['success' => true], 200);
     }
 
     /**
@@ -160,6 +160,6 @@ class Messenger
             $message->update(['deleted_from_receiver' => 1]);
         }
 
-        return true;
+        return response()->json(['success' => true], 200);
     }
 }

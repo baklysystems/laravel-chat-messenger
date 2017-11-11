@@ -11,15 +11,30 @@
      * Do action when a message event is triggered.
      */
     channel.bind('messenger-event', function (data) {
-        if (data.senderId == receiverId && data.receiverId == authId && data.receiverId != data.senderId) { // current conversation thread.
+        if (data.senderId == withId && data.withId == authId && data.withId != data.senderId) { // current conversation thread.
             newMessage(data.message, 'received');
             playTweet();
-            loadThreads();
-        }  else if (data.receiverId == authId && data.receiverId != data.senderId) { // not opened thread.
+            makeSeen(authId, withId);
+        }  else if (data.withId == authId && data.withId != data.senderId) { // not opened thread.
             playTweet();
             loadThreads();
         }
     });
+
+    /**
+     * Make a message seen.
+     */
+    function makeSeen(authId, withId) {
+        $.ajax({
+            url: '/messenger/ajax/make-seen',
+            method: 'POST',
+            data: {authId: authId, withId: withId}
+        }).done(function (res) {
+            if (res.success) {
+                loadThreads();
+            }
+        });
+    }
 
     /**
      * Delete confirmation.
@@ -81,7 +96,7 @@
         $.ajax({
             url: '/messenger/threads',
             method: 'GET',
-            data: {withUserId: receiverId}
+            data: {withId: withId}
         }).done(function (view) {
             $('.threads').html(view);
         });
@@ -95,7 +110,7 @@
             url: '/messenger/more/messages',
             method: 'GET',
             data: {
-                receiverId: receiverId,
+                withId: withId,
                 take: take
             }
         }).done(function (res) {
@@ -141,7 +156,7 @@
                     method: 'POST',
                     data: {
                         message: message,
-                        receiverId: receiverId
+                        withId: withId
                     }
                 });
             }

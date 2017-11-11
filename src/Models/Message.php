@@ -27,7 +27,7 @@ class Message extends Model
      */
     protected static $rules = [
         'conversation_id'       => 'integer',
-        'receiverId'            => 'required|integer', // message reciever.
+        'withId'                => 'required|integer', // message reciever.
         'message'               => 'required|string',
         'is_seen'               => 'boolean',
         'deleted_from_sender'   => 'boolean',

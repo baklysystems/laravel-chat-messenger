@@ -54,10 +54,7 @@ class MessageController extends Controller
             $conversation = Messenger::newConversation($authId, $withId);
         }
 
-        $request = collect($request)
-            ->put('conversation_id', $conversation->id)
-            ->put('sender_id', $authId);
-        $message = Message::create($request->all());
+        $message = Messenger::newMessage($conversation->id, $authId, $request->message);
 
         // Pusher
         $pusher = new Pusher(

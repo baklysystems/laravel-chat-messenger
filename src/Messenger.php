@@ -41,6 +41,23 @@ class Messenger
     }
 
     /**
+     * Make a new conversation between two users.
+     *
+     * @param  int  $authId
+     * @param  int  $withId
+     * @return collection
+     */
+    public function newConversation($authId, $withId)
+    {
+        $conversation = Conversation::create([
+            'user_one' => $authId,
+            'user_two' => $withId
+        ]);
+
+        return $conversation;
+    }
+
+    /**
      * Get last {$take} conversations with all users for a user.
      *
      * @param  int  $authId
@@ -137,9 +154,11 @@ class Messenger
     public function makeSeen($authId, $withId)
     {
         $conversation = $this->getConversation($authId, $withId);
-        Message::whereConversationId($conversation->id)->update([
-            'is_seen' => 1
-        ]);
+        if ($conversation) {
+            Message::whereConversationId($conversation->id)->update([
+                'is_seen' => 1
+            ]);
+        }
 
         return response()->json(['success' => true], 200);
     }

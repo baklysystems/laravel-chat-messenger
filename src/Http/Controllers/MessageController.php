@@ -46,20 +46,17 @@ class MessageController extends Controller
     {
         $this->validate($request, Message::rules());
 
-        $authUserId = auth()->id();
-        $withId     = $request->withId;
-        $conversation = Messenger::getConversation($authUserId, $withId);
+        $authId = auth()->id();
+        $withId = $request->withId;
+        $conversation = Messenger::getConversation($authId, $withId);
 
         if (! $conversation) {
-            $conversation = Conversation::create([
-                'user_one' => $authUserId,
-                'user_two' => $withId
-            ]);
+            $conversation = Messenger::newConversation($authId, $withId);
         }
 
         $request = collect($request)
             ->put('conversation_id', $conversation->id)
-            ->put('sender_id', $authUserId);
+            ->put('sender_id', $authId);
         $message = Message::create($request->all());
 
         // Pusher
@@ -73,7 +70,7 @@ class MessageController extends Controller
         );
         $pusher->trigger('messenger-channel', 'messenger-event', [
             'message'    => $message,
-            'senderId'   => $authUserId,
+            'senderId'   => $authId,
             'withId'     => $withId
         ]);
 
@@ -148,10 +145,6 @@ class MessageController extends Controller
     {
         $confirm = Messenger::deleteMessage($id, auth()->id());
 
-        if ($confirm) {
-            return response()->json(['success' => true], 200);
-        } else {
-            return response()->json(['success' => false], 500);
-        }
+        return response()->json(['success' => true], 200);
     }
 }

@@ -64,7 +64,6 @@ $ php artisan vendor:publish --tag messenger-views
 
 ## TODO
 
-* seen and unseen messages.
 * emotions.
 * upload photos.
 * Attach files.

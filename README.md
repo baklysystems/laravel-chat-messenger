@@ -64,8 +64,6 @@ $ php artisan vendor:publish --tag messenger-views
 
 ## TODO
 
-* Support Laravel 5.*
-* seen and unseen messages.
 * emotions.
 * upload photos.
 * Attach files.

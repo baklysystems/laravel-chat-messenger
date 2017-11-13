@@ -41,10 +41,27 @@ class Messenger
     }
 
     /**
+     * Make a new conversation between two users.
+     *
+     * @param  int  $authId
+     * @param  int  $withId
+     * @return collection
+     */
+    public function newConversation($authId, $withId)
+    {
+        $conversation = Conversation::create([
+            'user_one' => $authId,
+            'user_two' => $withId
+        ]);
+
+        return $conversation;
+    }
+
+    /**
      * Get last {$take} conversations with all users for a user.
      *
      * @param  int  $authId
-     * @param  int  $take
+     * @param  int  $take  (optional)
      * @return collection
      */
     public function userConversations($authId, $take = 20)
@@ -60,11 +77,43 @@ class Messenger
     }
 
     /**
+     * Create a new message between two users.
+     *
+     * @param  int  $conversationId
+     * @param  int  $senderId
+     * @param  string  $message
+     * @param  boolean  $isSeen  (optional)
+     * @param  boolean  $deletedSender  (optional)
+     * @param  boolean  $deletedReceiver  (optional)
+     * @return collection
+     */
+    public function newMessage(
+        $conversationId,
+        $senderId,
+        $message,
+        $isSeen = 0,
+        $deletedSender = 0,
+        $deletedReceiver = 0
+    )
+    {
+        $message = Message::create([
+            'conversation_id'       => $conversationId,
+            'sender_id'             => $senderId,
+            'message'               => $message,
+            'is_seen'               => $isSeen,
+            'deleted_from_sender'   => $deletedSender,
+            'deleted_from_receiver' => $deletedReceiver
+        ]);
+
+        return $message;
+    }
+
+    /**
      * Get last {$take} messages between two users.
      *
      * @param  int  $authId
      * @param  int  $withId
-     * @param  int  $take
+     * @param  int  $take  (optional)
      * @return collection
      */
     public function messagesWith($authId, $withId, $take = 20)
@@ -97,7 +146,7 @@ class Messenger
      * Get last {$take} user threads with all other users.
      *
      * @param  int  $authId
-     * @param  int  $take
+     * @param  int  $take  (optional)
      * @return collection
      */
     public function threads($authId, $take = 20)
@@ -121,7 +170,7 @@ class Messenger
         $threads = collect($threads);
         $threads = $threads->sortByDesc(function ($ins, $key) { // order threads by last updated message.
             $ins = (array) $ins;
-            return $ins['lastMessage']['updated_at'];
+            return $ins['lastMessage']['created_at'];
         });
 
         return $threads->values()->all();
@@ -137,11 +186,13 @@ class Messenger
     public function makeSeen($authId, $withId)
     {
         $conversation = $this->getConversation($authId, $withId);
-        Message::whereConversationId($conversation->id)->update([
-            'is_seen' => 1
-        ]);
+        if ($conversation) {
+            Message::whereConversationId($conversation->id)->update([
+                'is_seen' => 1
+            ]);
+        }
 
-        return true;
+        return response()->json(['success' => true], 200);
     }
 
     /**
@@ -160,6 +211,6 @@ class Messenger
             $message->update(['deleted_from_receiver' => 1]);
         }
 
-        return true;
+        return response()->json(['success' => true], 200);
     }
 }

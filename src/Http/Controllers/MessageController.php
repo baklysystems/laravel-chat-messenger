@@ -46,21 +46,15 @@ class MessageController extends Controller
     {
         $this->validate($request, Message::rules());
 
-        $authUserId = auth()->id();
-        $withId     = $request->receiverId;
-        $conversation = Messenger::getConversation($authUserId, $withId);
+        $authId = auth()->id();
+        $withId = $request->withId;
+        $conversation = Messenger::getConversation($authId, $withId);
 
         if (! $conversation) {
-            $conversation = Conversation::create([
-                'user_one' => $authUserId,
-                'user_two' => $withId
-            ]);
+            $conversation = Messenger::newConversation($authId, $withId);
         }
 
-        $request = collect($request)
-            ->put('conversation_id', $conversation->id)
-            ->put('sender_id', $authUserId);
-        $message = Message::create($request->all());
+        $message = Messenger::newMessage($conversation->id, $authId, $request->message);
 
         // Pusher
         $pusher = new Pusher(
@@ -73,8 +67,8 @@ class MessageController extends Controller
         );
         $pusher->trigger('messenger-channel', 'messenger-event', [
             'message'    => $message,
-            'senderId'   => $authUserId,
-            'receiverId' => $withId
+            'senderId'   => $authId,
+            'withId'     => $withId
         ]);
 
         return response()->json([
@@ -92,7 +86,7 @@ class MessageController extends Controller
     public function loadThreads(Request $request)
     {
         if ($request->ajax()) {
-            $withUser = config('messenger.user.model', 'App\User')::findOrFail($request->withUserId);
+            $withUser = config('messenger.user.model', 'App\User')::findOrFail($request->withId);
             $threads  = Messenger::threads(auth()->id());
             $view     = view('messenger::partials.threads', compact('threads', 'withUser'))->render();
 
@@ -108,12 +102,12 @@ class MessageController extends Controller
      */
     public function moreMessages(Request $request)
     {
-        $this->validate($request, ['receiverId' => 'required|integer']);
+        $this->validate($request, ['withId' => 'required|integer']);
 
         if ($request->ajax()) {
             $messages = Messenger::messagesWith(
                 auth()->id(),
-                $request->receiverId,
+                $request->withId,
                 $request->take
             );
             $view = view('messenger::partials.messages', compact('messages'))->render();
@@ -126,6 +120,19 @@ class MessageController extends Controller
     }
 
     /**
+     * Make a message seen.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return Response
+     */
+    public function makeSeen(Request $request)
+    {
+        Messenger::makeSeen($request->authId, $request->withId);
+
+        return response()->json(['success' => true], 200);
+    }
+
+    /**
      * Delete a message.
      *
      * @param  int  $id
@@ -135,10 +142,6 @@ class MessageController extends Controller
     {
         $confirm = Messenger::deleteMessage($id, auth()->id());
 
-        if ($confirm) {
-            return response()->json(['success' => true], 200);
-        } else {
-            return response()->json(['success' => false], 500);
-        }
+        return response()->json(['success' => true], 200);
     }
 }

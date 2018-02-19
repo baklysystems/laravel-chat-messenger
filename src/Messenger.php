@@ -137,7 +137,7 @@ class Messenger
             return $messages;
         }
 
-        return null;
+        return collect();
     }
 
     /**

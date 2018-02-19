@@ -121,7 +121,7 @@ class Messenger
         $conversation = $this->getConversation($authId, $withId);
 
         if ($conversation) {
-            $collection   = Message::whereConversationId($conversation->id)
+            $messages = Message::whereConversationId($conversation->id)
                 ->where(function ($query) use ($authId, $withId) {
                     $query->where(function ($qr) use ($authId) {
                         $qr->where('sender_id', $authId) // this message is sent by the authUser.
@@ -130,10 +130,8 @@ class Messenger
                         $qr->where('sender_id', $withId) // this message is sent by the receiver/withUser.
                             ->where('deleted_from_receiver', 0);
                     });
-                });
-            $totalRecords = $collection->count();
-            $messages     = $collection->take($take)
-                ->skip($totalRecords - $take)
+                })
+                ->take($take)
                 ->get();
 
             return $messages;

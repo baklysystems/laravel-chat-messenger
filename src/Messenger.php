@@ -131,10 +131,11 @@ class Messenger
                             ->where('deleted_from_receiver', 0);
                     });
                 })
+                ->latest()
                 ->take($take)
                 ->get();
 
-            return $messages;
+            return $messages->reverse();
         }
 
         return collect();

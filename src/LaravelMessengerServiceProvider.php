@@ -26,7 +26,7 @@ class LaravelMessengerServiceProvider extends ServiceProvider
         ]);
 
         // routes.
-        $this->loadRoutesFrom(base_path('routes/messenger.php');
+        $this->loadRoutesFrom(base_path('routes/messenger.php'));
 
         // migrations.
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');

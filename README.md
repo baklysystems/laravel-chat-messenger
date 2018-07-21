@@ -31,8 +31,7 @@ In `config/app.php` file
 
 ### Laravel Messenger Files
 
-Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets.
-
+Then, run `php artisan vendor:publish` to publish the config file, MessageController and assets and routes.
 ### Laravel Messenger Styles and Scripts
 
 Make sure to add `@yield('css-styles')` in your app/master head section and `@yield('js-scripts')` to your app/master scripts section, or edit section naming in `view/vendor/messenger/messenger.blade.php`

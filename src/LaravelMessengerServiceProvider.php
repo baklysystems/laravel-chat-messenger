@@ -21,10 +21,12 @@ class LaravelMessengerServiceProvider extends ServiceProvider
                 => app_path('Http/Controllers/MessageController.php'),
             // assets.
             __DIR__.'/assets' => public_path('vendor/messenger'),
+	    // routes
+	    __DIR__.'/routes' => base_path('routes'),
         ]);
 
         // routes.
-        $this->loadRoutesFrom(__DIR__.'/routes/routes.php');
+        $this->loadRoutesFrom(base_path('routes/messenger.php');
 
         // migrations.
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');

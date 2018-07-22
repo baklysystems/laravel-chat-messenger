@@ -38,6 +38,8 @@ Make sure to add `@yield('css-styles')` in your app/master head section and `@yi
 
 JQuery is required for the messenger script.
 
+Make sure to add `include('messenger.php');` to your web.php
+
 ### Laravel Messenger Pusher
 
 Add your pusher keys in `config/messenger.php` file.

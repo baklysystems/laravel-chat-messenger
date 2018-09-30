@@ -18,7 +18,11 @@
 
                 <div class="panel-body">
                     <div class="messenger">
-                        @if (count($messages) === 20)
+                         @if( is_array($messages) )
+                            @if (count($messages) === 20)
+                                <div id="messages-preloader"></div>
+                            @endif
+
                             <div id="messages-preloader"></div>
                         @else
                             <p class="start-conv">Conversation started</p>
@@ -60,7 +64,7 @@
     <script type="text/javascript">
         var withId        = {{$withUser->id}},
             authId        = {{auth()->id()}},
-            messagesCount = {{count($messages)}};
+            messagesCount = {{is_array($messages) ? count($messages) : '0'}};
             pusher        = new Pusher('{{config('messenger.pusher.app_key')}}', {
               cluster: '{{config('messenger.pusher.options.cluster')}}'
             });
